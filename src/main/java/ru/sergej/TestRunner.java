@@ -37,7 +37,7 @@ public class  TestRunner {
     try {
       // Запускаем методы перед всеми тестами
       for (Method beforeAllMethod : beforeAllMethods) {
-        beforeAllMethod.invoke(null);
+        beforeAllMethod.invoke(testObj);
       }
 
       // Запускаем каждый тест в отдельности

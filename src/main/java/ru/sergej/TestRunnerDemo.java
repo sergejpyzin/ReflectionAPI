@@ -11,19 +11,8 @@ public class TestRunnerDemo {
         TestRunner.run(TestRunnerDemo.class);
     }
 
-
-    @BeforeAll
-    static void beforeAll() {
-        System.out.println("before All");
-    }
-
-    @BeforeEach
-    static void beforeEach() {
-        System.out.println("before Each");
-    }
-
     @Test
-    private void test1() {
+    void test1() {
         System.out.println("test1");
     }
 
@@ -37,14 +26,4 @@ public class TestRunnerDemo {
         System.out.println("test3");
     }
 
-
-    @AfterEach
-    void afterEach() {
-        System.out.println("After Each");
-    }
-
-    @AfterAll
-    void afterAll() {
-        System.out.println("After All");
-    }
 }

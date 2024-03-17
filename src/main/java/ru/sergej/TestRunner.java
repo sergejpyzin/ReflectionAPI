@@ -13,13 +13,12 @@ import java.util.List;
 
 public class  TestRunner {
 
-  public static void run(Class<?> testClass) {
+  public static List<TestResult> run(Class<?> testClass) {
+    List<TestResult> results = new ArrayList<>();
     final Object testObj = initTestObj(testClass);
 
-    // Выполнение методов BeforeAll перед всеми тестами
     invokeAnnotatedMethods(testClass, BeforeAll.class);
 
-    // Получение всех тест-методов
     List<Method> testMethods = new ArrayList<>();
     for (Method method : testClass.getDeclaredMethods()) {
       if (method.isAnnotationPresent(Test.class)) {
@@ -27,24 +26,23 @@ public class  TestRunner {
       }
     }
 
-    // Сортировка тест-методов по порядку (если добавить пункт 3)
     testMethods.sort(Comparator.comparingInt(m -> m.getAnnotation(Test.class).order()));
 
-    // Выполнение всех тест-методов
     for (Method testMethod : testMethods) {
-      // Выполнение методов BeforeEach перед каждым тестом
       invokeAnnotatedMethods(testClass, BeforeEach.class);
       try {
         testMethod.invoke(testObj);
+        results.add(new TestResult(testMethod.getName(), true));
       } catch (IllegalAccessException | InvocationTargetException e) {
-        e.printStackTrace();
+        System.out.println(e.getMessage());
+        results.add(new TestResult(testMethod.getName(), false));
       }
-      // Выполнение методов AfterEach после каждого теста
       invokeAnnotatedMethods(testClass, AfterEach.class);
     }
 
-    // Выполнение методов AfterAll после всех тестов
     invokeAnnotatedMethods(testClass, AfterAll.class);
+
+    return results;
   }
 
   private static void invokeAnnotatedMethods(Class<?> testClass, Class<? extends Annotation> annotation) {
@@ -54,7 +52,7 @@ public class  TestRunner {
         try {
           method.invoke(testObj);
         } catch (IllegalAccessException | InvocationTargetException e) {
-          e.printStackTrace();
+          System.out.println(e.getMessage());
         }
       }
     }

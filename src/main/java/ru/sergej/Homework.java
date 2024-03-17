@@ -2,6 +2,8 @@ package ru.sergej;
 
 import ru.sergej.annotations.*;
 
+import java.util.List;
+
 public class Homework {
 
   /*
@@ -25,7 +27,10 @@ public class Homework {
    */
 
     public static void main(String[] args) {
-        TestRunner.run(Homework.class);
+        List<TestResult> results = TestRunner.run(Homework.class);
+        for (TestResult result : results) {
+            System.out.println(result);
+        }
     }
 
 

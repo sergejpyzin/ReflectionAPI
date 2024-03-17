@@ -1,8 +1,10 @@
 package ru.sergej;
 
+import ru.sergej.annotations.*;
+
 public class Homework {
 
-  /**
+  /*
    * Доделать запускатель тестов:
    * 1. Создать аннотации BeforeEach, BeforeAll, AfterEach, AfterAll
    * 2. Доработать класс TestRunner так, что
@@ -12,7 +14,7 @@ public class Homework {
    * 2.4 После каждого теста запускаются методы, над которыми стоит AfterEach
    * 2.5 После всех тестов запускаются методы, над которыми стоит AfterAll
    * Другими словами, BeforeAll -> BeforeEach -> Test1 -> AfterEach -> BeforeEach -> Test2 -> AfterEach -> AfterAll
-   *
+
    * 3.* Доработать аннотацию Test: добавить параметр int order,
    * по котрому нужно отсортировать тест-методы (от меньшего к большему) и запустить в нужном порядке.
    * Значение order по умолчанию - 0
@@ -21,5 +23,46 @@ public class Homework {
    * Идеи реализации: внутри Asserter'а кидать исключения, которые перехвываются в тесте.
    * Из TestRunner можно возвращать какой-то объект, описывающий результат тестирования.
    */
+
+    public static void main(String[] args) {
+        TestRunner.run(Homework.class);
+    }
+
+
+    @BeforeAll
+    static void beforeAll() {
+        System.out.println("before All");
+    }
+
+    @BeforeEach
+    static void beforeEach() {
+        System.out.println("before Each");
+    }
+
+    @Test(order = 2)
+    void test1() {
+        System.out.println("test1");
+    }
+
+    @Test(order = 3)
+    void test2() {
+        System.out.println("test2");
+    }
+
+    @Test(order = 1)
+    void test3() {
+        System.out.println("test3");
+    }
+
+    @AfterEach
+    void afterEach() {
+        System.out.println("After Each");
+    }
+
+    @AfterAll
+    void afterAll() {
+        System.out.println("After All");
+    }
+
 
 }

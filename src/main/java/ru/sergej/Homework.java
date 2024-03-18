@@ -27,12 +27,12 @@ public class Homework {
    */
 
     public static void main(String[] args) {
+
         List<TestResult> results = TestRunner.run(Homework.class);
         for (TestResult result : results) {
-            System.out.println(result);
+            System.out.println("Тест '" + result.getTestName() + "': " + (result.isPassed() ? "пройден" : "не пройден"));
         }
     }
-
 
     @BeforeAll
     static void beforeAll() {
@@ -47,16 +47,19 @@ public class Homework {
     @Test(order = 2)
     void test1() {
         System.out.println("test1");
+        Asserter.assertEquals(2 + 2, 4);
     }
 
     @Test(order = 3)
     void test2() {
         System.out.println("test2");
+        Asserter.assertEquals(3 * 3, 9);
     }
 
     @Test(order = 1)
     void test3() {
         System.out.println("test3");
+        Asserter.assertEquals(5 - 2, 3);
     }
 
     @AfterEach
@@ -68,6 +71,5 @@ public class Homework {
     void afterAll() {
         System.out.println("After All");
     }
-
 
 }

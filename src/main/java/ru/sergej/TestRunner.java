@@ -14,6 +14,7 @@ import java.util.List;
 public class  TestRunner {
 
   public static List<TestResult> run(Class<?> testClass) {
+
     List<TestResult> results = new ArrayList<>();
     final Object testObj = initTestObj(testClass);
 
@@ -30,14 +31,15 @@ public class  TestRunner {
 
     for (Method testMethod : testMethods) {
       invokeAnnotatedMethods(testClass, BeforeEach.class);
+      boolean passed = true;
       try {
         testMethod.invoke(testObj);
-        results.add(new TestResult(testMethod.getName(), true));
       } catch (IllegalAccessException | InvocationTargetException e) {
         System.out.println(e.getMessage());
-        results.add(new TestResult(testMethod.getName(), false));
+        passed = false;
       }
       invokeAnnotatedMethods(testClass, AfterEach.class);
+      results.add(new TestResult(testMethod.getName(), passed));
     }
 
     invokeAnnotatedMethods(testClass, AfterAll.class);
@@ -65,6 +67,5 @@ public class  TestRunner {
     } catch (NoSuchMethodException | InstantiationException | IllegalAccessException | InvocationTargetException e) {
       throw new RuntimeException("Не удалось создать объект тест класса");
     }
-
   }
 }

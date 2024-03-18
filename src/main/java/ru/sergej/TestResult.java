@@ -2,8 +2,8 @@ package ru.sergej;
 
 public class TestResult {
 
-    private boolean passed;
-    private String testName;
+    private final boolean passed;
+    private final String testName;
 
     public TestResult(String testName, boolean passed) {
         this.testName = testName;
